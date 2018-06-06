@@ -2,7 +2,7 @@
 
 // const authMiddleware = require('./middlewares/authorization');
 //
-// const UsersController = require('./controllers/users.controller');
+const UsersController = require('./controllers/users.controller');
 // const MoviesController = require('./controllers/movies.controller');
 
 const router = require('koa-router')();
@@ -10,6 +10,9 @@ const router = require('koa-router')();
 router.get('/', (ctx, next) => {
   ctx.body = 'Hello People';
 });
+router.post('/users', UsersController.create);
+router.get('/users', UsersController.getAll);
+router.get('/sign-in', UsersController.signIn);
 // router.get('/search', MoviesController.search);
 // router.get('/categories', MoviesController.categories);
 // router.get('/categories/:category', MoviesController.listByCategory);

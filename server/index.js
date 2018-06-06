@@ -12,6 +12,7 @@ const app = module.exports = new koa();
 
 const router = require('./routes.js');
 const errorHandler = require('./middlewares/error-handler');
+const models = require('./models');
 
 
 app
@@ -29,7 +30,17 @@ app
 
 const port = process.env.PORT || 3000;
 
-app.listen(port,() => {
-  // eslint-disable-next-line
-  console.log('Koa Server listening to port:', port);
+// app.listen(port,() => {
+//   // eslint-disable-next-line
+//   console.log('Koa Server listening to port:', port);
+// });
+
+models.sequelize.sync().then(function () {
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+  app.listen(3000, function () {
+    //eslint-disable-next-line
+    console.log('Koa app listening on port:', port);
+  });
 });
