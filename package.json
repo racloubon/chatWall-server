@@ -1,0 +1,37 @@
+{
+  "name": "chatwall",
+  "version": "1.0.0",
+  "description": "chat to show posts in a big screen",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidecorreu/chatWall.git"
+  },
+  "keywords": [
+    "chat",
+    "wall",
+    "server",
+    "client"
+  ],
+  "author": "David Rebolleda Mir",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidecorreu/chatWall/issues"
+  },
+  "homepage": "https://github.com/davidecorreu/chatWall#readme",
+  "dependencies": {
+    "kcors": "^2.2.1",
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-compress": "^3.0.0",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-json": "^1.2.0"
+  }
+}
