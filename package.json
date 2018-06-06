@@ -4,7 +4,7 @@
   "description": "chat to show posts in a big screen",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./server/index.js"
   },
   "repository": {
     "type": "git",
