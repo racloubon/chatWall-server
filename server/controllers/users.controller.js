@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const atob = require('atob');
+const jwt = require('jsonwebtoken');
 
 const models = require('../models');
 
@@ -15,10 +16,6 @@ module.exports.signIn = async (ctx, next) => {
   if (!username || !password) throw new Error('Bad Credentials');
 
   const user = await models.User.findOne({where: {username: username}});
-  // const dbResult = await models.User.findOne({ where: {username: 'David'}, attributes: ['username','password']});
-  // const dbResult = await models.User.find();
-  console.log('user from the db',user);
-
   const match = await bcrypt.compare(password, user.password);
 
   if (!user || !match) {
@@ -26,6 +23,8 @@ module.exports.signIn = async (ctx, next) => {
     return;
   } else {
     ctx.status = 200;
+    const token = jwt.sign({username: username}, '112358');
+    ctx.body = {'jwt_token': token};
   }
 };
 
@@ -51,8 +50,8 @@ module.exports.create = async (ctx, next) => {
       password: encryptedPassword,
       email: userData.email
     };
-
-    ctx.body = await models.User.create(user);
+    const createdUser = await models.User.create(user);
+    ctx.body = {username: createdUser.username};
     ctx.status = 201;
   }
 };
