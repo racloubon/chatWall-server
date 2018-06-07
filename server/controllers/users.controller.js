@@ -7,6 +7,7 @@ const models = require('../models');
 module.exports.signIn = async (ctx, next) => {
   if ('GET' != ctx.method) return await next();
 
+  console.log(ctx.headers);
   const authHeader = ctx.headers.authorization;
   if (!authHeader) throw new Error('No authorization header');
 
@@ -24,7 +25,10 @@ module.exports.signIn = async (ctx, next) => {
   } else {
     ctx.status = 200;
     const token = jwt.sign({username: username}, '112358');
-    ctx.body = {'jwt_token': token};
+    ctx.body = {
+      jwt_token: token,
+      username
+    };
   }
 };
 
@@ -51,7 +55,11 @@ module.exports.create = async (ctx, next) => {
       email: userData.email
     };
     const createdUser = await models.User.create(user);
-    ctx.body = {username: createdUser.username};
+    const token = jwt.sign({username: user.username}, '112358');
+    ctx.body = {
+      username: user.username,
+      jwt_token: token
+    };
     ctx.status = 201;
   }
 };
