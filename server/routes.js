@@ -1,8 +1,10 @@
 'use strict';
 
-// const authMiddleware = require('./middlewares/authorization');
-//
+const authMiddleware = require('./middlewares/authorization');
+
 const UsersController = require('./controllers/users.controller');
+const ChannelsController = require('./controllers/channels.controller');
+const MessagesController = require('./controllers/messages.controller');
 // const MoviesController = require('./controllers/movies.controller');
 
 const router = require('koa-router')();
@@ -13,6 +15,10 @@ router.get('/', (ctx, next) => {
 router.post('/users', UsersController.create);
 router.get('/users', UsersController.getAll);
 router.get('/sign-in', UsersController.signIn);
+
+router.post('/channels', authMiddleware, ChannelsController.create);
+router.post('/messages', authMiddleware, MessagesController.create);
+
 // router.get('/search', MoviesController.search);
 // router.get('/categories', MoviesController.categories);
 // router.get('/categories/:category', MoviesController.listByCategory);

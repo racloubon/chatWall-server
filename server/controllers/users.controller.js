@@ -7,7 +7,6 @@ const models = require('../models');
 module.exports.signIn = async (ctx, next) => {
   if ('GET' != ctx.method) return await next();
 
-  console.log(ctx.headers);
   const authHeader = ctx.headers.authorization;
   if (!authHeader) throw new Error('No authorization header');
 
