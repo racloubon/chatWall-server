@@ -18,6 +18,7 @@ router.get('/sign-in', UsersController.signIn);
 
 router.post('/channels', authMiddleware, ChannelsController.create);
 router.post('/messages', authMiddleware, MessagesController.create);
+router.get('/messages', authMiddleware, MessagesController.getAll);
 
 // router.get('/search', MoviesController.search);
 // router.get('/categories', MoviesController.categories);
