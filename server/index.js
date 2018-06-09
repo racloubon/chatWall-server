@@ -1,5 +1,6 @@
 'use strict';
 // const dotenv = require('dotenv').config();
+require('dotenv').config();
 const compress = require('koa-compress');
 const logger = require('koa-logger');
 // const serve = require('koa-static');
@@ -26,7 +27,6 @@ app
 
 // eslint-disable-next-line
 // console.log('=====>>>>> process.env.TMDB_API_KEY:',process.env.TMDB_API_KEY);
-// console.log(process.env);
 
 const port = process.env.PORT || 3000;
 
@@ -39,7 +39,7 @@ models.sequelize.sync().then(function () {
   /**
    * Listen on provided port, on all network interfaces.
    */
-  app.listen(3000, function () {
+  app.listen(port, function () {
     //eslint-disable-next-line
     console.log('Koa app listening on port:', port);
   });

@@ -30,7 +30,8 @@ module.exports.getAll = async (ctx, next) => {
   const checkChannel = await Channel.findOne({where: {name: ctx.query.channel}});
   if (!checkChannel) throw new Error('Channel not found');
 
-  const messages = await Message.findAll({where: {channel: ctx.query.channel}});
+  const messages = await Message.findAll({where: {channel: ctx.query.channel},
+    order: [['updatedAt', 'DESC']] });
   ctx.body = {
     channel: ctx.query.channel,
     messages
