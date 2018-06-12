@@ -16,6 +16,7 @@ module.exports.signIn = async (ctx, next) => {
   if (!username || !password) throw new Error('Bad Credentials');
 
   const user = await models.User.findOne({where: {username: username}});
+  if (!user) throw new Error('Bad user or password');
   const match = await bcrypt.compare(password, user.password);
 
   if (!user || !match) {

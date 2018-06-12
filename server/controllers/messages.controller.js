@@ -18,7 +18,7 @@ module.exports.create = async (ctx, next) => {
   };
 
   const dbResponse = await Message.create(message);
-  // if (dbResponse)
+  delayedDeleteMessage(dbResponse.id);
   ctx.body = dbResponse;
 };
 
@@ -36,4 +36,10 @@ module.exports.getAll = async (ctx, next) => {
     channel: ctx.query.channel,
     messages
   };
+};
+
+const delayedDeleteMessage = (id) => {
+  setTimeout(() => {
+    Message.destroy({ where: {id} });
+  },15*1000);
 };
