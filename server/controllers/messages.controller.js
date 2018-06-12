@@ -1,4 +1,5 @@
 const models = require('../models');
+const swearFilter = require('../utils/swearFilter');
 const Message = models.Message;
 const Channel = models.Channel;
 
@@ -11,8 +12,10 @@ module.exports.create = async (ctx, next) => {
   const checkChannel = await Channel.findOne({where: {name: ctx.request.body.channel}});
   if (!checkChannel) throw new Error('Channel not found');
 
+  const filteredMessage = await swearFilter(ctx.request.body.message);
+
   const message = {
-    message: ctx.request.body.message,
+    message: filteredMessage,
     channel: ctx.request.body.channel,
     creator: ctx.user.username,
   };
