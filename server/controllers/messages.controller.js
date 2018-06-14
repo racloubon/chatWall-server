@@ -12,7 +12,8 @@ module.exports.create = async (ctx, next) => {
   const checkChannel = await Channel.findOne({where: {name: ctx.request.body.channel}});
   if (!checkChannel) throw new Error('Channel not found');
 
-  const filteredMessage = await swearFilter(ctx.request.body.message);
+  // const filteredMessage = await swearFilter(ctx.request.body.message);
+  const filteredMessage = ctx.request.body.message;
 
   const message = {
     message: filteredMessage,
