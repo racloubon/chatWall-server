@@ -4,17 +4,10 @@ const fs        = require('fs');
 const path      = require('path');
 const Sequelize = require('sequelize');
 const basename  = path.basename(__filename);
-// const env       = process.env.NODE_ENV || 'development';
-// const config    = require(__dirname + '/../config/config.js')[env];
 const db        = {};
+require('dotenv').config({path:__dirname+'/./../../.env'});
 
-// if (config.use_env_variable) {
-//   const sequelize = new Sequelize(process.env[config.use_env_variable], config);
-// } else {
-//   const sequelize = new Sequelize(config.database, config.username, config.password, config);
-// }
-
-const sequelize = new Sequelize('chat-wall-db', 'david', 'codeworks', {
+const sequelize = new Sequelize('chat-wall-db', process.env.DB_USER, process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'postgres',
   port: 5432,

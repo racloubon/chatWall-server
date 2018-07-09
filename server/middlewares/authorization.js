@@ -1,4 +1,7 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config({path:__dirname+'/./../../.env'});
+
+const jwt_secret = process.env.JWT_SECRET;
 
 const authorize = async (ctx, next) => {
   const authHeader = ctx.headers.authorization;
@@ -14,7 +17,7 @@ const authorize = async (ctx, next) => {
 
 
   try {
-    decoded = jwt.verify(jwt_token, '112358');
+    decoded = jwt.verify(jwt_token, jwt_secret);
   } catch (err) {
     ctx.status =401;
     ctx.body = err.message;

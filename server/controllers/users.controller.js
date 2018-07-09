@@ -1,8 +1,10 @@
 const bcrypt = require('bcrypt');
 const atob = require('atob');
 const jwt = require('jsonwebtoken');
-
 const models = require('../models');
+require('dotenv').config({path:__dirname+'/./../../.env'});
+
+const jwt_secret = process.env.JWT_SECRET;
 
 module.exports.signIn = async (ctx, next) => {
   if ('GET' != ctx.method) return await next();
@@ -24,7 +26,7 @@ module.exports.signIn = async (ctx, next) => {
     return;
   } else {
     ctx.status = 200;
-    const token = jwt.sign({username: username}, '112358');
+    const token = jwt.sign({username: username}, jwt_secret);
     ctx.body = {
       jwt_token: token,
       username
@@ -55,7 +57,7 @@ module.exports.create = async (ctx, next) => {
       email: userData.email
     };
     const createdUser = await models.User.create(user);
-    const token = jwt.sign({username: user.username}, '112358');
+    const token = jwt.sign({username: user.username}, jwt_secret);
     ctx.body = {
       username: user.username,
       jwt_token: token
