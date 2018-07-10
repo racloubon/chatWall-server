@@ -1,5 +1,5 @@
 # chatWall-server
-chat wall to post messages
+Chat wall is an application created to post messages from users in a big screen. The main idea is to create a channel that will be shown in one or more big screens from a computer and the other users can join the channel to post messages there that will be shown for 10 seconds. This repo is the backend of this application. If you want to check the frontent visit [chat-wall-client](https://github.com/davidecorreu/chatwall-client)
 
 # Runnning the backend
 
@@ -43,3 +43,13 @@ npm run dev
 ## 4. You are ready to set up the front end!
 
 Navigate to [chat-wall-client](https://github.com/davidecorreu/chatwall-client) and follow the instructions in the README.md to finish the setup and run the application.
+
+
+
+## Tech Stack
+
+- Postgresql
+- Sequelize
+- Json Web Token
+- Koa
+
