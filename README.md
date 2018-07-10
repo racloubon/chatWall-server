@@ -14,16 +14,16 @@ chat wall to post messages
   3. [Create your .env file](#3-create-your-.env-file)
   4. [Run the server](#4-run-the-server)
   5. [You are ready to set up the front end!](#5-you-are-ready-to-set-up-the-front-end)
-  
+
 ## 1. Clone the Repo
 
 Clone the `chatwall-server code` locally. In a terminal, run:
 
   `git clone https://github.com/davidecorreu/chatWall-server.git`
-  
+
 ## 2. Set up postgresql
 
-Install postgresql and start postgresql service.
+Install postgresql, create a new database named 'chat-wall-db' and start postgresql service.
 
 ## 3. Create your .env file
 
