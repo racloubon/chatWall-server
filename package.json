@@ -4,7 +4,8 @@
   "description": "chat to show posts in a big screen",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./server/index.js"
+    "dev": "nodemon ./server/index.js",
+    "test": "jest --watchAll"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "bcrypt": "^2.0.1",
     "dotenv": "^6.0.0",
     "fs": "0.0.1-security",
+    "jest": "^24.3.1",
     "jsonwebtoken": "^8.2.2",
     "kcors": "^2.2.1",
     "koa": "^2.5.1",
@@ -38,7 +40,10 @@
     "nodemon": "^1.17.5",
     "path": "^0.12.7",
     "pg": "^7.4.3",
-    "sequelize": "^4.37.10"
+    "sequelize": "^4.37.10",
+    "short-id": "0.1.0-1",
+    "validator": "^10.11.0",
+    "xss": "^1.0.3"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
