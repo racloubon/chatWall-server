@@ -43,6 +43,7 @@ const messages = [
     expireTime: 'Sat Mar 09 2019 14:33:09 GMT+0100 (Central European Standard Time)',
     message: "Stripes or spots",
     channel: 'Tigers',
+    pin: 999,
     creator: 'Tony',
     updatedAt: "2019-03-09T09:07:27.635Z",
     createdAt: "2019-03-09T09:07:27.635Z"
@@ -52,6 +53,7 @@ const messages = [
     expireTime: 'Sat Mar 09 2019 14:33:09 GMT+0100 (Central European Standard Time)',
     message: 'Roar',
     channel: 'Lions',
+    pin: 888,
     creator: 'Egill',
     updatedAt: "2019-03-09T09:07:27.635Z",
     createdAt: "2019-03-09T09:07:27.635Z"
@@ -61,8 +63,15 @@ const messages = [
     expireTime: 'Sat Mar 09 2019 14:33:09 GMT+0100 (Central European Standard Time)',
     message: 'Where is my honey?',
     channel: 'Bears',
+    pin: 777,
     creator: 'Rachel',
     updatedAt: "2019-03-09T09:07:27.635Z",
     createdAt: "2019-03-09T09:07:27.635Z"
   },
 ]
+
+module.exports = {
+  messages,
+  channels,
+  users,
+}

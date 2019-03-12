@@ -6,7 +6,7 @@ module.exports.channels = {
       id: 10,
       name: channel.name,
       creator: channel.creator,
-      expireTime: channel.expireTime,
+      expireTime: (Date.now() + (1000 * 60 * 60 * 24 * 7)),
       updatedAt: "2019-03-09T09:07:27.635Z",
       createdAt: "2019-03-09T09:07:27.635Z",
       pin: 999
@@ -14,41 +14,29 @@ module.exports.channels = {
   },
   delete: function (channel) {
     return true //Egill checking this
-  },
-  // findOne: function (searchString) {
-  //   const res = mocks.channels.find(data => data.name === searchString.where.name)
-  //   console.log(res)
-  //   if (res) return true
-  // }
+  }
 }
 
 module.exports.messages = {
   create: function (message) {
-    return {
-      score: 0,
-      expireTime: 'Sat Mar 09 2019 14:33:09 GMT+0100 (Central European Standard Time)',
-      message: message.message,
-      channel: message.channel,
-      creator: message.creator,
-      updatedAt: "2019-03-09T09:07:27.635Z",
-      createdAt: "2019-03-09T09:07:27.635Z"
+    if (message) {
+      return {
+        score: 0,
+        expireTime: 'Sat Mar 09 2019 14:33:09 GMT+0100 (Central European Standard Time)',
+        message: message.message,
+        channel: message.channel,
+        creator: message.creator,
+        updatedAt: "2019-03-09T09:07:27.635Z",
+        createdAt: "2019-03-09T09:07:27.635Z"
+      }
     }
   },
   update: function (message) {
     return true
+  },
+  findAll: function (search) {
+    return mocks.messages.filter(data => data.pin === search.where.pin)
   }
-  // findAll: function (searchString) {
-  //   return [{
-  //     channel: "Saturday1",
-  //     createdAt: "2019-03-09T13:45:33.541Z",
-  //     creator: "rachelbonny",
-  //     expireTime: "Sat Mar 09 2019 14:45:20 GMT+0100 (Central European Standard Time)",
-  //     id: 3,
-  //     message: "another one",
-  //     score: 0,
-  //     updatedAt: "2019-03-09T13:45:33.541Z"
-  //   }]
-  // }
 }
 
 module.exports.users = {

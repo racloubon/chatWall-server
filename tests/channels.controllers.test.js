@@ -1,7 +1,7 @@
 const cntrl = require('../server/controllers/channels.controller');
 const model = require('./models');
 
-test('it should create a channel', async () => {
+test('it should create a channel and return a pin', async () => {
 
   const ctx = {
     method: 'POST',
@@ -30,14 +30,13 @@ test('it should create a channel', async () => {
 
 })
 
-
-test('it should not create a channel if channel data is not provided', async () => {
+test('it should handle the error if the database fails', async () => {
 
   const ctx = {
     method: 'POST',
     request: {
       body: {
-        channel: null,
+        channel: "Monkeys"
       }
     },
     user: {
@@ -49,52 +48,10 @@ test('it should not create a channel if channel data is not provided', async () 
     status: null
   }
 
-  await expect(cntrl.create(ctx, () => {}, model.channels))
-    .rejects.toThrow(Error('Channel name not found'))
+  await cntrl.create(ctx, () => {}, null)
 
-  expect(ctx.status).toBe(400)
-})
+  expect(ctx.status).toBe(
+    500
+  );
 
-test('it should not create a channel if username data is not provided', async () => {
-
-  const ctx = {
-    method: 'POST',
-    request: {
-      body: {
-        channel: "Monkeys"
-      }
-    },
-    user: {
-      username: null
-    },
-    body: {
-      pin: null
-    },
-    status: null
-  }
-
-  await expect(cntrl.create(ctx, () => {}, model.channels))
-    .rejects.toThrow(Error('Username not found'))
-
-  expect(ctx.status).toBe(400)
-})
-
-test('it should delete a channel', async () => {
-
-  const ctx = {
-    method: 'DELETE',
-    request: {
-      body: {
-        pin: 888
-      }
-    },
-    user: {
-      username: "Egill"
-    },
-    status: null
-  }
-
-  await cntrl.delete(ctx, () => {}, model.channels)
-
-  expect(ctx.status).toBe(202)
 })

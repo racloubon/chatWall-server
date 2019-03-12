@@ -125,7 +125,7 @@ test('it should not create a user if password is not provided', async () => {
     request: {
       body: {
         username: "Igor",
-        email: "igor@chatwall.com"
+        email: "igor@chatwall.com",
         password: null
       }
     },

@@ -1,8 +1,7 @@
 const cntrl = require('../server/controllers/messages.controller');
 const model = require('./models');
 
-
-//create
+//CREATE
 
 test('it should create a message', async () => {
 
@@ -10,7 +9,7 @@ test('it should create a message', async () => {
     method: 'POST',
     request: {
       body: {
-        message: "My porridge is gone.",
+        message: "My porridge has been eaten.",
         pin: 777
       }
     },
@@ -20,7 +19,7 @@ test('it should create a message', async () => {
     status: null
   }
 
-  await cntrl.create(ctx, () => {}, model.channels)
+  await cntrl.create(ctx, () => {}, model.messages)
 
   expect(ctx.status).toBe(
     201
@@ -28,13 +27,13 @@ test('it should create a message', async () => {
 
 })
 
-test('it should not create a message if message is missing', async () => {
+test('it should handle the error if the database fails', async () => {
 
   const ctx = {
     method: 'POST',
     request: {
       body: {
-        message: null,
+        message: "My porridge has been eaten.",
         pin: 777
       }
     },
@@ -44,55 +43,39 @@ test('it should not create a message if message is missing', async () => {
     status: null
   }
 
-  await expect(cntrl.create(ctx, () => {}, model.channels))
-    .rejects.toThrow(Error('Message not found'))
+  await cntrl.create(ctx, () => {}, null)
 
-  expect(ctx.status).toBe(400)
+  expect(ctx.status).toBe(
+    500//
+  );
 
 })
 
-test('it should not create a message if channel is missing', async () => {
+//GET ALL
+
+test('it should fetch all messages', async () => {
 
   const ctx = {
-    method: 'POST',
-    request: {
-      body: {
-        message: "Where is my porridge",
-        pin: null
-      }
+    method: 'GET',
+    query: {
+      pin: 999
     },
-    user: {
-      username: "Rachel"
+    body: {
+      messages: null
     },
     status: null
   }
 
-  await expect(cntrl.create(ctx, () => {}, model.channels))
-    .rejects.toThrow(Error('Channel not found'))
-
-  expect(ctx.status).toBe(400)
-
-})
-
-test('it should not create a message if username is missing', async () => {
-
-  const ctx = {
-    method: 'POST',
-    request: {
-      body: {
-        message: "Where is my porridge",
-        pin: 777
-      }
-    },
-    user: {
-      username: null
-    },
-    status: null
-  }
-
-  await expect(cntrl.create(ctx, () => {}, model.channels))
-    .rejects.toThrow(Error('Username not found'))
-
-  expect(ctx.status).toBe(400)
+  await cntrl.getMessages(ctx, () => {}, model.messages)
+  expect(ctx.body.messages).toEqual([{
+    score: 0,
+    expireTime: 'Sat Mar 09 2019 14:33:09 GMT+0100 (Central European Standard Time)',
+    message: "Stripes or spots",
+    channel: 'Tigers',
+    pin: 999,
+    creator: 'Tony',
+    updatedAt: "2019-03-09T09:07:27.635Z",
+    createdAt: "2019-03-09T09:07:27.635Z"
+  }]);
 
 })

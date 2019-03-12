@@ -1,59 +1,44 @@
 const models = require('../models');
-const swearFilter = require('../utils/swearFilter');
-const Message = models.Message;
-const Channel = models.Channel;
 
-module.exports.create = async (ctx, next, Channel = models.Channel, Message = models.Message) => {
-  if ('POST' != ctx.method) return await next();
+module.exports.create = async (ctx, next, Message = models.Message) => {
 
-  if (!ctx.request.body.message) throw new Error('Message not found');
-  if (!ctx.request.body.channel) throw new Error('Channel not defined');
+  const { message, pin: channel_id } = ctx.request.body;
+  const { username: creator } = ctx.user;
 
-  const checkChannel = await Channel.findOne({where: {name: ctx.request.body.channel}});
-
-
-  if (!checkChannel) throw new Error('Channel not found');
-
-  // const filteredMessage = await swearFilter(ctx.request.body.message);
-  const filteredMessage = ctx.request.body.message;
-
-  const message = {
-    message: filteredMessage,
-    channel: ctx.request.body.channel,
-    creator: ctx.user.username,
-  };
-
-  const dbResponse = await Message.create(message);
-
-  delayedDeleteMessage(dbResponse.id);
-  ctx.body = dbResponse;
-  ctx.status = 201;
+  try {
+    const messages = await Message.create({ message, creator, channel_id });
+    ctx.body = messages;
+    ctx.status = 201;
+  } catch (err) {
+    ctx.status = 503;
+  }
 };
 
-module.exports.getAll = async (ctx, next) => {
-  if ('GET' != ctx.method) return await next();
+module.exports.getMessages = async (ctx, next, Message = models.Message) => {
 
-  const query = ctx.query;
-  if (!ctx.query.channel) throw new Error('Channel not specified');
-  const checkChannel = await Channel.findOne({where: {name: ctx.query.channel}});
-  if (!checkChannel) throw new Error('Channel not found');
+  const { pin } = ctx.query;
 
-  let messages = await Message.findAll({where: {channel: ctx.query.channel},
-    order: [['updatedAt', 'DESC']] })
-
-  // messages = messages.map(m => m.get()) -- Marco's addition for debugging
-
-  ctx.body = {
-    channel: ctx.query.channel,
-    messages
-  };
-
-
+  try {
+    const messages = await Message.findAll({where: {channel_id: pin}})
+    ctx.body = messages
+    ctx.status = 201;
+  } catch (err) {
+    ctx.status = 503;
+  }
 };
 
+module.exports.voteMessage = async (ctx, next, Message = models.Message) => {
 
-const delayedDeleteMessage = (id) => {
-  setTimeout(() => {
-    Message.destroy({ where: {id} });
-  },15*1000);
-};
+  const { id, vote } = ctx.request.body;
+  const v = vote === 1 ? '+' : '-';
+
+  try {
+    const message = await Message.update({ score: models.sequelize.literal(`"score" ${v} 1`) }, { where: { id: id }, returning: true, plain: true });
+    ctx.body = message[1].dataValues;
+    ctx.status = 200;
+  }
+  catch (err) {
+    ctx.status = 400;
+  }
+
+}
