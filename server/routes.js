@@ -15,7 +15,6 @@ router.get('/', (ctx, next) => {
   ctx.body = 'Hello People';
 });
 router.post('/users', UsersController.create);
-router.get('/users', UsersController.getAll);
 router.get('/sign-in', UsersController.signIn);
 
 router.post('/channels', authMiddleware, channelRequestValidation, ChannelsController.create);
