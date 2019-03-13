@@ -18,7 +18,7 @@ router.post('/users', UsersController.create);
 router.get('/sign-in', UsersController.signIn);
 
 router.post('/channels', authMiddleware, ChannelsController.create);
-router.post('/messages', authMiddleware, messagesValidation, MessagesController.create);
+router.post('/messages', authMiddleware, MessagesController.create);
 router.get('/messages', authMiddleware, MessagesController.getMessages);
 router.put('/messages', authMiddleware, MessagesController.voteMessage);
 
