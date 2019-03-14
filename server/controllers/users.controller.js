@@ -16,11 +16,14 @@ module.exports.signIn = async (ctx, next, User = models.User) => {
   const userColonPassword = atob(authHeader.split('Basic ')[1]);
   const [username, password] = userColonPassword.split(':');
 
-  const jwt_token = jwt.sign({ username }, jwt_secret);
+  const user = await User.findOne({ where: { username } });
+  const match = await bcrypt.compare(password, user.password);
 
+  if (!match) throw Error('Username or Password incorrect');
+
+  const jwt_token = jwt.sign({ username }, jwt_secret);
+  
   try {
-    const user = await User.findOne({ where: { username } });
-    await bcrypt.compare(password, user.password);
     ctx.body = { jwt_token, username };
     ctx.status = 200;
   }

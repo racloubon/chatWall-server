@@ -21,3 +21,30 @@ module.exports.create = async (ctx, next, Channel = models.Channel) => {
   }
 
 };
+/*
+
+1. create channel => ids.generate() === channel id (primary key)
+
+2. create channel pin => ids.store(channel_id) === channel pin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/

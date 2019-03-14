@@ -7,7 +7,7 @@ const basename  = path.basename(__filename);
 const db        = {};
 require('dotenv').config({path:__dirname+'/./../../.env'});
 
-const sequelize = new Sequelize('chat-wall-db', process.env.DB_USER, process.env.DB_PASSWORD, {
+const sequelize = new Sequelize('chatwalldb', process.env.DB_USER, process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'postgres',
   port: 5432,
@@ -27,7 +27,6 @@ fs
   })
   .forEach(file => {
     const model = sequelize['import'](path.join(__dirname, file));
-    console.log(model.name, 'HERE')
     db[model.name] = model;
   });
 
