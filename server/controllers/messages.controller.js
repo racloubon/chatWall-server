@@ -1,4 +1,5 @@
 const models = require('../models');
+const { Op } = require('sequelize');
 
 module.exports.create = async (ctx, next, Message = models.Message) => {
 
@@ -16,10 +17,22 @@ module.exports.create = async (ctx, next, Message = models.Message) => {
 
 module.exports.getMessages = async (ctx, next, Message = models.Message) => {
 
-  const { pin } = ctx.query;
+  const { pin, cutoff } = ctx.query;
 
   try {
-    const messages = await Message.findAll({where: {channel_id: pin}})
+    const messages = cutoff ? await Message.findAll({
+      where: {
+        channel_id: pin,
+        createdAt: {
+          // [Op.lt]: new Date(cutoff)
+          [Op.lt]: Date(cutoff)
+        }
+      }
+    }) : await Message.findAll({
+      where: {
+        channel_id: pin,
+      }
+    })
     ctx.body = messages
     ctx.status = 201;
   } catch (err) {
@@ -42,3 +55,6 @@ module.exports.voteMessage = async (ctx, next, Message = models.Message) => {
   }
 
 }
+
+
+//90b28a
